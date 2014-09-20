@@ -28,6 +28,8 @@ public class ServerAPI {
     private static LinkedList<String> activatedBlurbs = new LinkedList<String>();
     private static String currentLocation;
 
+    private static LinkedList<Event> Events;
+
     public static void updateBlurbs() {
 
     }
@@ -66,5 +68,20 @@ public class ServerAPI {
 
     public static void setCurrentOrdering(String ordering) {
         currentOrdering = ordering;
+    }
+
+    public static void fetchEventsList() {
+
+    }
+
+    public static LinkedList<Event> getEvents() {
+        return Events;
+    }
+
+    public static int getNumberOfEvents() {
+        if (Events == null) {
+            return 0;
+        }
+        return Events.size();
     }
 }

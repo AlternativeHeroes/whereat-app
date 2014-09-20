@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class MainActivity extends FragmentActivity
 
     private DrawerLayout mDrawerLayout;
     private ListView     mDrawerList;
+    private ListView     mEventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,10 @@ public class MainActivity extends FragmentActivity
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList   = (ListView) findViewById(R.id.left_drawer);
-
         mDrawerList.setAdapter(new BlurbAdapter(this));
+
+        mEventList    = (ListView) findViewById(R.id.events_list);
+        mEventList.setAdapter(new EventsAdapter(this));
     }
 
 
@@ -65,7 +69,10 @@ public class MainActivity extends FragmentActivity
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 
         ServerAPI.setCurrentOrdering(item.getTitleCondensed().toString());
-        return super.onOptionsItemSelected(item);
+        ServerAPI.fetchEventsList();
+        updateEventsListAdapter();
+
+        return true;
     }
 
     // On blurb change
@@ -77,6 +84,7 @@ public class MainActivity extends FragmentActivity
         else {
             ServerAPI.deactivateBlurb(blurbIndex);
         }
+        ServerAPI.fetchEventsList();
         updateEventsListAdapter();
     }
 
@@ -85,6 +93,7 @@ public class MainActivity extends FragmentActivity
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, ServerAPI.getLocations()[position], Toast.LENGTH_SHORT).show();
         ServerAPI.setCurrentLocation(position);
+        ServerAPI.fetchEventsList();
         updateEventsListAdapter();
     }
 
@@ -92,6 +101,6 @@ public class MainActivity extends FragmentActivity
     public void onNothingSelected(AdapterView<?> parent) {  }
 
     private void updateEventsListAdapter() {
-
+        ((BaseAdapter) mEventList.getAdapter()).notifyDataSetChanged();
     }
 }
