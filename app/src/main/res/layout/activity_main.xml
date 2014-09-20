@@ -24,8 +24,8 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/skyline"
                 android:cacheColorHint="@android:color/transparent"
+                android:background="@drawable/skyline"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:id="@+id/events_list">
@@ -59,7 +59,7 @@
             android:choiceMode="multipleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:background="#fdff0000"/>
+            android:background="#fdffa836"/>
     </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>
