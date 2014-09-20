@@ -59,7 +59,11 @@ public class BlurbAdapter extends BaseAdapter {
         }
         else {
             v = inflater.inflate(R.layout.drawer_header, null);
-            ((Spinner) v.findViewById(R.id.spinner)).setAdapter(new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, ServerAPI.getLocations()));
+            Spinner spinner = ((Spinner) v.findViewById(R.id.spinner));
+            spinner.setAdapter(
+                    new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1,
+                            ServerAPI.getLocations()));
+            spinner.setOnItemSelectedListener(activity);
         }
         return v;
     }

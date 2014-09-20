@@ -27,9 +27,11 @@
 <group android:id="@+id/group">
     <item android:id="@+id/group_item1"
         android:title="@string/popular1"
+        android:title-condensed="popular"
         android:icon="@drawable/ic_drawer" />
     <item android:id="@+id/group_item2"
         android:title="@string/upcomming"
+        android:title-condensed="upcoming"
         android:icon="@drawable/ic_drawer" />
 </group>
 </menu>

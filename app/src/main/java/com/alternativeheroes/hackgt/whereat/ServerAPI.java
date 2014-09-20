@@ -1,9 +1,14 @@
 package com.alternativeheroes.hackgt.whereat;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Created by mde on 9/20/14.
  */
 public class ServerAPI {
+
+    private static String currentOrdering;
 
     private static String[] blurbs = {
             "Parties",
@@ -19,6 +24,9 @@ public class ServerAPI {
             "Georgia Tech",
             "University of Michigan"
     };
+
+    private static LinkedList<String> activatedBlurbs = new LinkedList<String>();
+    private static String currentLocation;
 
     public static void updateBlurbs() {
 
@@ -42,5 +50,21 @@ public class ServerAPI {
 
     public static String[] getLocations() {
         return locations;
+    }
+
+    public static void activateBlurb(int index) {
+        activatedBlurbs.add(blurbs[index]);
+    }
+
+    public static void deactivateBlurb(int index) {
+        activatedBlurbs.remove(blurbs[index]);
+    }
+
+    public static void setCurrentLocation(int index) {
+        currentLocation = locations[index];
+    }
+
+    public static void setCurrentOrdering(String ordering) {
+        currentOrdering = ordering;
     }
 }
