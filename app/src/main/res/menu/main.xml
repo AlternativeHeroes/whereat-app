@@ -22,17 +22,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:id="@+id/action_settings"
     android:title="@string/action_search"
-    android:icon="@drawable/ic_drawer"
     android:showAsAction="ifRoom|withText"
     android:color="#fdff0000"/>
 <group android:id="@+id/group">
     <item android:id="@+id/group_item1"
-        android:onClick="onGroupItemClick"
-        android:title="@string/menu_item1"
+        android:title="@string/popular1"
         android:icon="@drawable/ic_drawer" />
     <item android:id="@+id/group_item2"
-        android:onClick="onGroupItemClick"
-        android:title="@string/menu_item2"
+        android:title="@string/upcomming"
         android:icon="@drawable/ic_drawer" />
 </group>
 </menu>

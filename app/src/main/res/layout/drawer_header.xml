@@ -4,11 +4,10 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin">
 
-    <CheckBox
+
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New CheckBox"
-        android:id="@+id/checkBox"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
-
+        android:id="@+id/spinner"
+        android:layout_weight="1" />
 </LinearLayout>

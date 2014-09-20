@@ -8,6 +8,9 @@
     <string name="action_search">"Events happening tonight"</string>
     <string name="menu_item1">"Popular tonight</string>
     <string name="menu_item2">"Upcoming events"</string>
+    <string name="popular1">Popular Right Now</string>
+    <string name="upcomming">Upcoming Events</string>
+
 
 
 

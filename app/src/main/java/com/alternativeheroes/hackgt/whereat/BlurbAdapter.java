@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -16,9 +19,9 @@ import android.widget.TextView;
 public class BlurbAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
-    private Activity activity;
+    private MainActivity activity;
 
-    public BlurbAdapter(Activity a) {
+    public BlurbAdapter(MainActivity a) {
         activity = a;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -39,14 +42,24 @@ public class BlurbAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = inflater.inflate(R.layout.single_panel_text, null);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View v;
 
         if (position > 0) {
-            ((TextView) v.findViewById(R.id.text)).setText(ServerAPI.getBlurbs()[position - 1]);
+            final int newPos = position - 1;
+            v = inflater.inflate(R.layout.single_panel_text, null);
+            CheckBox checkBox = ((CheckBox) v.findViewById(R.id.checkBox));
+            checkBox.setText(ServerAPI.getBlurbs()[newPos]);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    activity.onBlurbChange(newPos, isChecked, buttonView);
+                }
+            });
         }
         else {
-            ((TextView) v.findViewById(R.id.text)).setText(ServerAPI.getLocations()[0]);
+            v = inflater.inflate(R.layout.drawer_header, null);
+            ((Spinner) v.findViewById(R.id.spinner)).setAdapter(new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, ServerAPI.getLocations()));
         }
         return v;
     }
