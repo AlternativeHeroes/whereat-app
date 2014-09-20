@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WhereAt.iml" filepath="$PROJECT_DIR$/WhereAt.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook/facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/whereat-app.iml" filepath="$PROJECT_DIR$/whereat-app.iml" />
     </modules>
   </component>
 </project>

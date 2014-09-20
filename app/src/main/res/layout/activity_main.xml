@@ -27,7 +27,27 @@
             android:choiceMode="multipleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:background="#111"/>
+            android:background="#fdff0000"/>
     </android.support.v4.widget.DrawerLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/skyline"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/btnChangeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Image" />
+
+    </LinearLayout>
 
 </RelativeLayout>

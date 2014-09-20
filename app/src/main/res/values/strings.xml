@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WhereAt</string>
+    <string name="app_name">Where@</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="app_id">572155172914348</string>
+    <string name="action_search">"Events happening tonight"</string>
+    <string name="menu_item1">"Popular tonight</string>
+    <string name="menu_item2">"Upcoming events"</string>
+
+
 
 </resources>
