@@ -1,15 +1,19 @@
 package com.alternativeheroes.hackgt.whereat;
 
+import android.graphics.Color;
 import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ListView.OnItemClickListener{
 
     private LoginFragment loginFrag;
 
@@ -21,20 +25,31 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         if (savedInstanceState == null) {
             loginFrag = new LoginFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.content, loginFrag)
+                    .add(R.id.drawer_layout, loginFrag)
                     .commit();
         } else {
             loginFrag = (LoginFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.content);
+                    .findFragmentById(R.id.drawer_layout);
 
         }
+        */
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList   = (ListView) findViewById(R.id.left_drawer);
+
+        ServerAPI.updateBlurbs();
+        ServerAPI.updateLocations();
+        mDrawerLayout.openDrawer(mDrawerList);
+
+        if (ServerAPI.hasBlurbs() && ServerAPI.hasLocations()) {
+            mDrawerList.setAdapter(new BlurbAdapter(this));
+            mDrawerList.setOnItemClickListener(this);
+        }
     }
 
 
@@ -58,5 +73,10 @@ public class MainActivity extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("Stuff", "Clicked");
     }
 }
