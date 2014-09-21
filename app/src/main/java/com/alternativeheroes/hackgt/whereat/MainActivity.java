@@ -1,23 +1,28 @@
 package com.alternativeheroes.hackgt.whereat;
 
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.alternativeheroes.hackgt.whereat.Fragments.LoginFragment;
+import com.alternativeheroes.hackgt.whereat.Fragments.SummaryFragment;
+import com.alternativeheroes.hackgt.whereat.Server.Event;
+import com.alternativeheroes.hackgt.whereat.Server.EventServer;
+import com.alternativeheroes.hackgt.whereat.adapters.BlurbAdapter;
+import com.alternativeheroes.hackgt.whereat.adapters.EventsAdapter;
+import android.content.Intent;
 
 
 public class MainActivity extends FragmentActivity
@@ -29,6 +34,7 @@ public class MainActivity extends FragmentActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView     mDrawerList;
     private ListView     mEventList;
+    public static final String MESSAGE = "SelectedActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +109,10 @@ public class MainActivity extends FragmentActivity
 
         //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 
-        ServerAPI.setCurrentOrdering(item.getTitleCondensed().toString());
+        EventServer.setCurrentOrdering(item.getTitleCondensed().toString());
         // Server will not order
         // ServerAPI.fetchEventsList();
-        ServerAPI.switchOut();
+        EventServer.switchOut();
         updateEventsListAdapter();
 
         return true;
@@ -118,24 +124,24 @@ public class MainActivity extends FragmentActivity
 
         if (checked) {
             ((LinearLayout) btnView.getParent()).setBackgroundColor(getResources().getColor(R.color.blurb_selected));
-            ServerAPI.activateBlurb(blurbIndex);
+            EventServer.activateBlurb(blurbIndex);
         }
         else {
             ((LinearLayout) btnView.getParent()).setBackgroundColor(getResources().getColor(R.color.blurb_unselected));
-            ServerAPI.deactivateBlurb(blurbIndex);
+            EventServer.deactivateBlurb(blurbIndex);
         }
-        ServerAPI.fetchEventsList();
+        EventServer.fetchEventsList();
         updateEventsListAdapter();
     }
 
     // On Location Change
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (ServerAPI.getCurrentLocation() == null
-                || !ServerAPI.getCurrentLocation().equals(ServerAPI.getLocations()[position])) {
+        if (EventServer.getCurrentLocation() == null
+                || !EventServer.getCurrentLocation().equals(EventServer.getLocations()[position])) {
             //Toast.makeText(this, ServerAPI.getLocations()[position], Toast.LENGTH_SHORT).show();
-            ServerAPI.setCurrentLocation(position);
-            ServerAPI.fetchEventsList();
+            EventServer.setCurrentLocation(position);
+            EventServer.fetchEventsList();
             updateEventsListAdapter();
         }
     }
@@ -161,7 +167,7 @@ public class MainActivity extends FragmentActivity
 
     public void onUpVote(View v, int index) {
         ImageView image = ((ImageView) v.findViewById(R.id.upVote));
-        Event currEvent = ServerAPI.getEvents().get(index);
+        Event currEvent = EventServer.getEvents().get(index);
 
         if (currEvent.isLiked()) {
             image.setImageResource(R.drawable.smyle_unselected);
@@ -174,6 +180,9 @@ public class MainActivity extends FragmentActivity
     }
 
     public void onMoreInfoSelect(View v, int index) {
-
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra(MESSAGE, index);
+        startActivity(intent);
     }
 }
+

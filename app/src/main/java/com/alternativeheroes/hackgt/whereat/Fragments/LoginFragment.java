@@ -1,4 +1,4 @@
-package com.alternativeheroes.hackgt.whereat;
+package com.alternativeheroes.hackgt.whereat.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alternativeheroes.hackgt.whereat.R;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;

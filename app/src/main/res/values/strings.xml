@@ -17,7 +17,6 @@
     <string name="popularity">Popularity</string>
     <string name="distance">Distance</string>
     <string name="data">Event data</string>
-
-
+    <string name="title_activity_description">DescriptionActivity</string>
 
 </resources>
