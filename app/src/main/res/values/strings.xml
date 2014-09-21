@@ -10,11 +10,13 @@
     <string name="menu_item2">"Upcoming events"</string>
     <string name="popular1">Popular Right Now</string>
     <string name="upcomming">Upcoming Events</string>
+    <string name="location">Location: </string>
+    <string name="event_title">Event Title That\'s Really Long</string>
+    <string name="empty"></string>
     <string name="time">Time</string>
-    <string name="location">Location</string>
-    <string name="event_title">Event Title</string>
-
-
+    <string name="popularity">Popularity</string>
+    <string name="distance">Distance</string>
+    <string name="data">Event data</string>
 
 
 

@@ -22,6 +22,8 @@ public class BlurbAdapter extends BaseAdapter {
     private MainActivity activity;
 
     public BlurbAdapter(MainActivity a) {
+        ServerAPI.updateLocations();
+        ServerAPI.updateBlurbs();
         activity = a;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -1,77 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_gravity="center_vertical">
+    android:layout_height="wrap_content">
 
-
-    <GridLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="33dp">
+        android:layout_height="wrap_content"
+        android:id="@+id/panel_cont">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_row="9"
-            android:layout_column="9"
-            android:id="@drawable/">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/event_title"
-                android:id="@+id/textView"
-                android:layout_marginLeft="26dp"
-                android:layout_marginTop="64dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingBar"
-                android:layout_toEndOf="@+id/textView"
-                android:layout_marginLeft="28dp"
-                android:numStars="4"
-                android:stepSize="1"
-                android:layout_alignBottom="@+id/textView"
-                android:layout_toRightOf="@+id/textView" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/time"
-                android:id="@+id/textView2"
-                android:layout_below="@+id/ratingBar"
-                android:layout_alignLeft="@+id/ratingBar"
-                android:layout_alignStart="@+id/ratingBar"
-                android:layout_marginLeft="48dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/location"
-                android:id="@+id/textView3"
-                android:layout_below="@+id/textView2"
-                android:layout_alignLeft="@+id/textView2"
-                android:layout_alignStart="@+id/textView2" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/voting"
+            android:paddingBottom="@dimen/left_margin"
+            android:paddingTop="@dimen/left_margin"
+            android:paddingLeft="@dimen/left_margin">
 
             <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:id="@+id/upVote"
+                android:src="@drawable/smyle_unselected" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:layout_below="@+id/textView2"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignStart="@+id/textView"
-                android:src="@drawable/redcup-small" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="21sp"
+                android:text="0"
+                android:id="@+id/up_count" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/touching"
+            android:paddingBottom="@dimen/left_margin"
+            android:paddingTop="@dimen/left_margin">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/imageView"
+                android:src="@android:drawable/ic_media_play"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/imageView"
+                android:layout_toStartOf="@+id/imageView">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/left_margin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/event_title"
+                            android:id="@+id/eventTitle"
+                            android:textSize="25dp"
+                            android:layout_marginBottom="@dimen/left_margin"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/eventCover"
+                            android:layout_toEndOf="@+id/eventCover" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/data"
+                            android:id="@+id/eventInfo"
+                            android:layout_alignBottom="@+id/eventCover"
+                            android:layout_toRightOf="@+id/eventCover"
+                            android:layout_toEndOf="@+id/eventCover" />
+                    </LinearLayout>
+
+            </RelativeLayout>
+
         </RelativeLayout>
-    </GridLayout>
+
+    </LinearLayout>
+
+
 </RelativeLayout>
