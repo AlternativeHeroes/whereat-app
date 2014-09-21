@@ -106,7 +106,7 @@ public class MainActivity extends FragmentActivity
         ServerAPI.setCurrentOrdering(item.getTitleCondensed().toString());
         // Server will not order
         // ServerAPI.fetchEventsList();
-        ServerAPI.order();
+        ServerAPI.switchOut();
         updateEventsListAdapter();
 
         return true;
