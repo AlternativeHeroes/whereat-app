@@ -54,7 +54,7 @@ public class EventsAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View  v =  inflater.inflate(R.layout.event_panel, null);
+        View v = inflater.inflate(R.layout.event_panel, null);
         Event e = EventServer.getEvents().get(position);
 
         ((LinearLayout) v.findViewById(R.id.voting)).setOnClickListener(new View.OnClickListener() {
@@ -82,13 +82,21 @@ public class EventsAdapter extends BaseAdapter {
         String order = EventServer.getCurrentOrdering();
         TextView data = ((TextView) v.findViewById(R.id.eventInfo));
 
-        if (order.equals(EventServer.ORDER_DISTANCE)) {
-            data.setText(e.getDistance() + " miles");
-        } else if (order.equals(EventServer.ORDER_LIKES)) {
-            data.setText("");
-        } else if (order.equals(EventServer.ORDER_TIME)) {
+        if (e.getAttendees() > 0) {
+            data.setText(e.getAttendees() + " Attending");
+        }
+//        if (order.equals(EventServer.ORDER_NEWEST)) {
+//            data.setText("");
+//        } else if (order.equals(EventServer.ORDER_LIKES)) {
+//            //data.setText("( " + e.getLikes() + " Upvotes )");
+//            data.setText("");
+//         }
+        else if (order.equals(EventServer.ORDER_TIME)) {
             Date date = new Date(e.getStartTime() * 1000L);
             data.setText(EventServer.sdf.format(date));
+        }
+        else {
+            data.setText("");
         }
 
         return v;

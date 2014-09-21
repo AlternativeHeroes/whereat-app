@@ -1,5 +1,6 @@
 package com.alternativeheroes.hackgt.whereat.Server;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -9,22 +10,28 @@ public class Event {
 
     private int     likes;
     private long    startTime;
-    private double  distance;
+    private long    timePosted;
     private String  title;
     private String  id;
     private String  description;
+    private String  location;
     private boolean isLiked;
+    private int     attendees;
 
-    Event(String id, int likes, long startTime,
-          double distance, String title, boolean isLiked,
-          String description) {
+    private ArrayList<String> comments;
+
+    public Event(String id, int likes, String location,
+          long timePosted, String title, boolean isLiked,
+          String description, int attendees, ArrayList<String> comments) {
         this.likes = likes;
-        this.startTime = startTime;
-        this.distance = distance;
+        this.location = location;
+        this.timePosted = timePosted;
         this.title = title;
         this.isLiked = isLiked;
         this.id = id;
         this.description = description;
+        this.attendees = attendees;
+        this.comments = comments;
     }
 
 
@@ -67,8 +74,8 @@ public class Event {
         return startTime;
     }
 
-    public double getDistance() {
-        return distance;
+    public long getTimePosted() {
+        return timePosted;
     }
 
     public String getDescription() {
@@ -90,7 +97,7 @@ public class Event {
         public boolean equals(Object object) { return false; }
     }
 
-    public static class DistanceComparator implements Comparator<Event> {
+    /*public static class DistanceComparator implements Comparator<Event> {
         @Override
         public int compare(Event lhs, Event rhs) {
             if (lhs.getDistance() < rhs.getDistance()) {
@@ -103,7 +110,7 @@ public class Event {
 
         @Override
         public boolean equals(Object object) { return false; }
-    }
+    }*/
 
     public static class LikesComparator implements Comparator<Event> {
         @Override
@@ -118,5 +125,21 @@ public class Event {
 
         @Override
         public boolean equals(Object object) { return false; }
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getAttendees() {
+        return attendees;
+    }
+
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public String getId() {
+        return id;
     }
 }

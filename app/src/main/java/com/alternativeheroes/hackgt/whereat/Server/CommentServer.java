@@ -1,5 +1,11 @@
 package com.alternativeheroes.hackgt.whereat.Server;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URI;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -19,11 +25,40 @@ public class CommentServer {
         images.add("http://mcgarnagle.files.wordpress.com/2011/07/vlcsnap-00064.jpg");
     }
 
-    public static void updateComments() {
+    public static void updateComments(Event event) {
+        ArrayList<String> commentIds = event.getComments();
+        comments = new ArrayList<String>(commentIds.size());
 
+        for (int i = 0; i < commentIds.size(); ++i) {
+            JSONObject data =  EventServer.getDataObject(
+                    "http://128.61.77.195:3000/comment/" + commentIds.get(i), false);
+            try {
+                comments.add(URLDecoder.decode(data.getString("text"), "UTF-8"));
+            }
+            catch (Exception err) { err.printStackTrace(); }
+        }
+
+        /*
+        comments.add("Hello");
+        comments.add("FUCK YOU RICHARD STALLMAN!");
+        comments.add("I love that part at 3:10");
+        comments.add("Do you even be?");
+        comments.add("FIRST LAWLS"); */
     }
 
     public static ArrayList<String> getImages() {
         return images;
+    }
+
+    public static ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public static void postComment(String comment, Event event) {
+        try {
+            EventServer.getDataObject("http://128.61.77.195:3000/event/" + event.getId()
+                    + "/541e365e84ae90fe6fd48a61/text/" + URLEncoder.encode(comment, "UTF-8"), true);
+        }
+        catch (Exception err) { err.printStackTrace(); }
     }
 }

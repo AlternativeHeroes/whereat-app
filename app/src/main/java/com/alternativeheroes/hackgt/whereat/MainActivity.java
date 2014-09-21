@@ -1,7 +1,10 @@
 package com.alternativeheroes.hackgt.whereat;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -11,13 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alternativeheroes.hackgt.whereat.Fragments.LoginFragment;
-import com.alternativeheroes.hackgt.whereat.Fragments.SummaryFragment;
 import com.alternativeheroes.hackgt.whereat.Server.Event;
 import com.alternativeheroes.hackgt.whereat.Server.EventServer;
 import com.alternativeheroes.hackgt.whereat.adapters.BlurbAdapter;
@@ -34,26 +35,20 @@ public class MainActivity extends FragmentActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView     mDrawerList;
     private ListView     mEventList;
-    public static final String MESSAGE = "SelectedActivity";
+
+    public  static final String MESSAGE = "SelectedActivity";
+    private static final String ID_TAG  = "userIdWhereAt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (savedInstanceState == null) {
-//            loginFrag = new LoginFragment();
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .add(R.id.content, loginFrag)
-//                    .commit();
-//        } else {
-//            loginFrag = (LoginFragment) getSupportFragmentManager()
-//                    .findFragmentById(R.id.content);
-//
-//        }
+        StrictMode.ThreadPolicy policy = new StrictMode.
+                ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-        getActionBar().setIcon(R.drawable.action_search);
+        doUserTransaction();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -107,13 +102,23 @@ public class MainActivity extends FragmentActivity
             return true;
         }
 
-        //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_compose) {
+            createNewEventActivity();
+        }
+        else if (item.getItemId() == R.id.action_refresh) {
+            EventServer.fetchEventsList();
+            updateEventsListAdapter();
+        }
+        else {
 
-        EventServer.setCurrentOrdering(item.getTitleCondensed().toString());
-        // Server will not order
-        // ServerAPI.fetchEventsList();
-        EventServer.switchOut();
-        updateEventsListAdapter();
+            //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+            EventServer.setCurrentOrdering(item.getTitleCondensed().toString());
+            // Server will not order
+            // ServerAPI.fetchEventsList();
+            EventServer.switchOut();
+            updateEventsListAdapter();
+        }
 
         return true;
     }
@@ -183,6 +188,27 @@ public class MainActivity extends FragmentActivity
         Intent intent = new Intent(this, DescriptionActivity.class);
         intent.putExtra(MESSAGE, index);
         startActivity(intent);
+    }
+
+    public void createNewEventActivity() {
+        Intent intent = new Intent(this, NewEventActivity.class);
+        startActivity(intent);
+    }
+
+    public void doUserTransaction() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String id = prefs.getString(ID_TAG, "none");
+
+        if (id.equals("none")) {
+            id = EventServer.registerNewUser();
+
+            SharedPreferences.Editor prefsEdit =
+                    PreferenceManager.getDefaultSharedPreferences(this).edit();
+            prefsEdit.putString(ID_TAG, id);
+            prefsEdit.commit();
+        }
+
+        EventServer.setUserId(id);
     }
 }
 

@@ -20,22 +20,37 @@
 <!--</menu>-->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+
+    <item
+        android:title="Refresh"
+        android:id="@+id/action_refresh"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:showAsAction="ifRoom|withText"
+        />
+
+    <item
+        android:title="Create New Event"
+        android:id="@+id/action_compose"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="ifRoom|withText"
+        />
+
+    <group android:id="@+id/action_settings"
         android:title="@string/action_search"
         android:showAsAction="ifRoom" >
 
         <item android:id="@+id/group_item1"
-            android:title="@string/popularity"
+            android:title="Most Popular"
             android:titleCondensed="popular" />
         <item android:id="@+id/group_item2"
-            android:title="@string/time"
+            android:title="Upcoming"
             android:titleCondensed="time" />
         <item android:id="@+id/group_item3"
-            android:title="@string/distance"
-            android:titleCondensed="distance" />
+            android:title="Recently Added"
+            android:titleCondensed="newest" />
 
-    </item>
+    </group>
+
     <!-- Settings, should always be in the overflow -->
 
 </menu>

@@ -2,6 +2,7 @@ package com.alternativeheroes.hackgt.whereat;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -26,7 +28,10 @@ import java.net.URL;
 import java.util.TimeZone;
 
 
-public class DescriptionActivity extends Activity {
+public class DescriptionActivity extends Activity implements View.OnClickListener {
+
+    private TextView messageBox;
+    private int      index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +39,49 @@ public class DescriptionActivity extends Activity {
         setContentView(R.layout.event_desccription);
         EventServer.sdf.setTimeZone(TimeZone.getDefault());
 
-        Event e = EventServer.getEvents().get(getIntent().getIntExtra(MainActivity.MESSAGE, 0));
+        index = getIntent().getIntExtra(MainActivity.MESSAGE, 0);
+        Event e = EventServer.getEvents().get(index);
 
         ((TextView) findViewById(R.id.summaryAndTIme)).setText(
                 EventServer.sdf.format(e.getStartTime())
                 + ":\n" + e.getDescription());
         ((TextView) findViewById(R.id.likesCount)).setText(e.getLikes() + " Votes");
-        ((TextView) findViewById(R.id.distanceCount)).setText(e.getDistance() + " miles away");
+        ((TextView) findViewById(R.id.distanceCount)).setText("At " + e.getLocation());
         ((TextView) findViewById(R.id.titleContainer)).setText(e.getTitle());
 
+        loadImages();
+        loadComments();
+
+        ((Button) findViewById(R.id.sendMsgBtn)).setOnClickListener(this);
+        messageBox = (TextView) findViewById(R.id.msgText);
+    }
+
+    public void loadComments() {
+        LinearLayout commentContainer = (LinearLayout) findViewById(R.id.commentContainer);
+        commentContainer.removeAllViewsInLayout();
+        EventServer.updateEvent(index);
+        CommentServer.updateComments(EventServer.getEvents().get(index));
+        for (String comments : CommentServer.getComments()) {
+            View v = getLayoutInflater().inflate(R.layout.comment, null);
+            TextView comment = (TextView) (v.findViewById(R.id.commentBox54));
+            comment.setText(comments);
+            commentContainer.addView(v);
+        }
+    }
+
+    public void loadImages() {
         LinearLayout imageContainer = (LinearLayout) findViewById(R.id.imageContainer);
+        imageContainer.removeAllViewsInLayout();
         float scale = getBaseContext().getResources().getDisplayMetrics().density;
 
         CommentServer.updateImages();
         for (String image : CommentServer.getImages()) {
             try {
-                ImageView img = new ImageView(getBaseContext());
+                ImageView img = (ImageView) getLayoutInflater().inflate(R.layout.thumbnail, null);
                 DownloadImageTask task = new DownloadImageTask(img);
                 task.execute(image);
 
-                img.setImageResource(R.drawable.skyline);
-                img.setVisibility(View.VISIBLE);
-                img.setPadding(15, 15, 15, 15);
                 img.setMaxHeight((int) (200 * scale));
-                img.setAdjustViewBounds(true);
                 ((ViewGroup) imageContainer).addView(img);
             }
             catch (Exception err) {
@@ -98,6 +122,17 @@ public class DescriptionActivity extends Activity {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Event e = EventServer.getEvents().get(index);
+        CommentServer.postComment(messageBox.getText().toString(), e);
+        try {
+            Thread.sleep(500);
+        } catch (Exception err) {}
+        messageBox.setText("");
+        loadComments();
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
